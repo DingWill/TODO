@@ -1,4 +1,3 @@
-
 export default {
   hash: true,
   theme: './src/themes/index.js',
@@ -25,7 +24,8 @@ export default {
           level: 2
         },
         title: {
-          defaultTitle: 'my-todo-list'
+          defaultTitle: 'my-todo-list',
+          useLocale: true
         },
         hardSource: false,
         pwa: false,

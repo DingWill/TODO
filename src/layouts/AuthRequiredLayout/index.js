@@ -1,12 +1,9 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'dva'
-import withRouter from 'umi/withRouter'
 import { destoryGlobalSpinner } from '../../helpers/view'
 
 class AuthRequiredLayout extends Component {
   static propTypes = {
-    currentUser: PropTypes.object,
     location: PropTypes.shape({
       pathname: PropTypes.string
     }),
@@ -23,10 +20,4 @@ class AuthRequiredLayout extends Component {
   }
 }
 
-export default withRouter(
-  connect(({ app, users }) => {
-    return {
-      currentUser: users.currentUser
-    }
-  })(AuthRequiredLayout)
-)
+export default AuthRequiredLayout
