@@ -47,8 +47,9 @@ class TodoList extends Component {
   }
 
   render() {
-    // const { todolistManage } = this.props
-    // const { todoList } = todolistManage
+    const { todolistManage } = this.props
+    const { todoList } = todolistManage
+    console.log('todoList', todoList)
     return (
       <div className={styles.content}>
         <AddInput handleAddList={this._handleAddList} />

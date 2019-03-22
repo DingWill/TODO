@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import { Input, Icon } from 'antd'
+import { Row } from 'antd'
 
 import ListItem from '../ListItem'
-// import styles from './index.less'
 
 class ListContent extends Component {
   static propTypes = {
@@ -20,11 +19,11 @@ class ListContent extends Component {
   render() {
     const { todoList } = this.props
     return (
-      <div>
+      <Row>
         {(todoList || []).map(item => {
           return <ListItem key={item.id} item={item} />
         })}
-      </div>
+      </Row>
     )
   }
 }

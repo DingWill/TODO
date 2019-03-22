@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Checkbox } from 'antd'
+import { Row, Icon } from 'antd'
 
-// import styles from './index.less'
+import { someHref } from '../../../../helpers/text'
+import styles from './index.less'
 
 class ListItem extends Component {
   static propTypes = {
@@ -19,9 +20,15 @@ class ListItem extends Component {
   render() {
     const { item } = this.props
     return (
-      <div>
-        <Checkbox>{item.title}</Checkbox>
-      </div>
+      <Row className={styles.todoItem}>
+        <a href={someHref} className={styles.itemCheck}>
+          <Icon type="check" className={styles.itemCheckIcon} />
+        </a>
+        <p className={styles.itemTitle}>{item.title}</p>
+        <a href={someHref} className={styles.itemDelete}>
+          <Icon type="close" />
+        </a>
+      </Row>
     )
   }
 }

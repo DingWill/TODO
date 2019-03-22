@@ -1,0 +1,50 @@
+p {
+  margin: 0;
+  padding: 0;
+}
+.todoItem {
+  position: relative;
+  line-height: 50px;
+  padding: 0 10px;
+  border-bottom: 1px solid @grey-3;
+}
+
+.itemCheck {
+  display: block;
+  position: absolute;
+  top: 13px;
+  width: 25px;
+  height: 25px;
+  line-height: 50px;
+  border: 1px solid @grey-3;
+  border-radius: 50%;
+}
+
+.itemCheckIcon {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  color: #2eb170;
+  font-size: 17px;
+}
+
+.todoItem > p {
+  display: inline-block;
+}
+
+.itemTitle {
+  padding-left: 35px;
+}
+
+.itemDelete {
+  display: none;
+  position: absolute;
+  top: 6px;
+  right: 15px;
+  color: @red-1;
+  font-size: 18px;
+}
+
+.todoItem:hover .itemDelete {
+  display: block;
+}

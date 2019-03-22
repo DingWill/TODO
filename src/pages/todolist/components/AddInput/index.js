@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Input, Icon } from 'antd'
+import { Row, Input, Icon } from 'antd'
 
 import styles from './index.less'
 
@@ -28,13 +28,16 @@ class AddInput extends Component {
 
   render() {
     return (
-      <Input.Search
-        placeholder={'What need to be done?'}
-        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-        onSearch={value => this._handleAdd(value)}
-        className={styles.search}
-        enterButton={false}
-      />
+      <Row className={styles.addContent}>
+        <Input.Search
+          placeholder={'What need to be done?'}
+          prefix={<Icon type="down" className={styles.icon} />}
+          onSearch={value => this._handleAdd(value)}
+          className={styles.search}
+          enterButton={false}
+          suffix={null}
+        />
+      </Row>
     )
   }
 }
