@@ -31,6 +31,7 @@
     "moment": "^2.24.0",
     "path-to-regexp": "^3.0.0",
     "react": "^16.8.4",
+    "react-helmet": "^5.2.0",
     "replace-in-file": "^3.4.4",
     "safe-reaper": "^1.1.0"
   },

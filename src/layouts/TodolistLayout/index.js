@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Layout, BackTop } from 'antd'
+import { Helmet } from 'react-helmet'
 
+import logo from '../../assets/favicon.png'
 import styles from './index.less'
 
 class TodolistLayout extends Component {
@@ -18,6 +20,9 @@ class TodolistLayout extends Component {
 
     return (
       <React.Fragment>
+        <Helmet>
+          <link rel="icon" href={logo} type="image/x-icon" />
+        </Helmet>
         <BackTop />
         <Layout className={styles.layout}>
           <Layout>
