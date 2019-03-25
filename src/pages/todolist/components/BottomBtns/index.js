@@ -2,34 +2,55 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Button } from 'antd'
 
+import { someHref } from '../../../../helpers/text'
 import styles from './index.less'
+
+const STATUS_BTNS = [
+  {
+    key: 'ALL',
+    value: 'All'
+  },
+  {
+    key: 'ACTIVE',
+    value: 'Active'
+  },
+  {
+    key: 'COMPLETED',
+    value: 'Completed'
+  }
+]
 
 class BottomBtns extends Component {
   static propTypes = {
     loading: PropTypes.object,
-    handleAddList: PropTypes.func,
-    todoList: PropTypes.array
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {}
+    len: PropTypes.number,
+    status: PropTypes.string,
+    changeStatus: PropTypes.func,
+    clearComplete: PropTypes.func
   }
 
   render() {
-    const { todoList } = this.props
-    const len = (todoList || []).length
+    const { len, status, changeStatus, clearComplete } = this.props
     return (
       <Row className={styles.bottom}>
         <div>{len} item left</div>
         <div>
-          <Button>All</Button>
-          <Button>Active</Button>
-          <Button>Completed</Button>
+          {STATUS_BTNS.map(item => {
+            if (item.key === status) {
+              return (
+                <a href={someHref} key={item.key} className={styles.btnSeleted}>
+                  {item.value}
+                </a>
+              )
+            }
+            return (
+              <a href={someHref} key={item.key} className={styles.btn} onClick={() => changeStatus(item.key)}>
+                {item.value}
+              </a>
+            )
+          })}
         </div>
-        <div>
-          <Button>Clear Completed</Button>
-        </div>
+        <div>{status === 'COMPLETED' ? <Button onClick={() => clearComplete()}>Clear Completed</Button> : null}</div>
       </Row>
     )
   }

@@ -10,32 +10,20 @@ class AddInput extends Component {
     handleAddList: PropTypes.func
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      title: null
-    }
-  }
-
-  _handleAdd = value => {
+  _handleAdd = event => {
     const { handleAddList } = this.props
-    const title = value.trim() !== '' ? value.trim() : null
-    this.setState({
-      title
-    })
+    const title = event.target.value.trim() !== '' ? event.target.value.trim() : null
     handleAddList(title)
   }
 
   render() {
     return (
       <Row className={styles.addContent}>
-        <Input.Search
+        <Input
           placeholder={'What need to be done?'}
           prefix={<Icon type="down" className={styles.icon} />}
-          onSearch={value => this._handleAdd(value)}
+          onPressEnter={this._handleAdd}
           className={styles.search}
-          enterButton={false}
-          suffix={null}
         />
       </Row>
     )

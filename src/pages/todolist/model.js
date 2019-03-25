@@ -5,7 +5,8 @@ import { getTodoList } from './service'
 export default withMixin({
   namespace: 'todolistManage',
   state: {
-    todoList: []
+    todoList: [],
+    status: 'ALL'
   },
   subscriptions: {},
   effects: {

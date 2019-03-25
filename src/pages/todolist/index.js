@@ -3,30 +3,14 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import { Table } from 'antd'
+import { message } from 'antd'
 import { connect } from 'dva'
-// import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale'
 
 import AddInput from './components/AddInput'
 import ListContent from './components/ListContent'
 import BottomBtns from './components/BottomBtns'
 
 import styles from './index.less'
-
-const allList = [
-  {
-    id: 1,
-    title: 'zhe是标题1'
-  },
-  {
-    id: 2,
-    title: '很大机会圣诞节活动'
-  },
-  {
-    id: 3,
-    title: '激动死奥红豆杉'
-  }
-]
 
 class TodoList extends Component {
   static propTypes = {
@@ -43,19 +27,138 @@ class TodoList extends Component {
   }
 
   _handleAddList = title => {
-    console.log('title', title)
+    // 新增Item
+    if (!title) {
+      return
+    }
+    const { todolistManage, dispatch } = this.props
+    const { todoList } = todolistManage
+    const someItem = (todoList || []).find(item => item.task === title)
+    if (someItem) {
+      return message.warning('已存在相同名称的List！')
+    }
+    const newItem = {
+      id: (todoList || []).length + 1,
+      task: title,
+      completed: false
+    }
+    const newList = [...todoList, newItem]
+    dispatch({
+      type: 'todolistManage/updateState',
+      payload: {
+        todoList: newList
+      }
+    })
+  }
+
+  _handleCompletedItem = taskId => {
+    // 将Item标为已完成
+    if (!taskId) {
+      return
+    }
+    const { todolistManage, dispatch } = this.props
+    const { todoList } = todolistManage
+    const newList = (todoList || []).map(item => {
+      if (item.id === taskId) {
+        return {
+          ...item,
+          completed: !item.completed
+        }
+      }
+      return item
+    })
+    dispatch({
+      type: 'todolistManage/updateState',
+      payload: {
+        todoList: newList
+      }
+    })
+  }
+
+  _handleDeleteItem = taskId => {
+    // 删除Item
+    if (!taskId) {
+      return
+    }
+    const { todolistManage, dispatch } = this.props
+    const { todoList } = todolistManage
+    const newList = (todoList || [])
+      .filter(item => item.id !== taskId)
+      .map((i, index) => {
+        return {
+          ...i,
+          id: index + 1
+        }
+      })
+    dispatch({
+      type: 'todolistManage/updateState',
+      payload: {
+        todoList: newList
+      }
+    })
+  }
+
+  _handleChangeStatus = key => {
+    // 更改底部按钮状态
+    this.props.dispatch({
+      type: 'todolistManage/updateState',
+      payload: {
+        status: key
+      }
+    })
+  }
+
+  _handleClearCompleted = () => {
+    // 清除已完成
+    const { todolistManage, dispatch } = this.props
+    const { todoList } = todolistManage
+    const newList = (todoList || [])
+      .filter(item => !item.completed)
+      .map((i, index) => {
+        return {
+          ...i,
+          id: index + 1
+        }
+      })
+    dispatch({
+      type: 'todolistManage/updateState',
+      payload: {
+        todoList: newList
+      }
+    })
   }
 
   render() {
     const { todolistManage } = this.props
-    const { todoList } = todolistManage
-    console.log('todoList', todoList)
+    const { todoList, status } = todolistManage
+
+    const listForStatus = {
+      ALL: todoList,
+      ACTIVE: (todoList || []).filter(item => !item.completed),
+      COMPLETED: (todoList || []).filter(item => item.completed)
+    }
+
+    const listParams = {
+      todoList: listForStatus[status],
+      handleCompleted: this._handleCompletedItem,
+      handleDelete: this._handleDeleteItem
+    }
+
+    const bottomParams = {
+      len: (listForStatus[status] || []).length,
+      status,
+      changeStatus: this._handleChangeStatus,
+      clearComplete: this._handleClearCompleted
+    }
     return (
-      <div className={styles.content}>
-        <AddInput handleAddList={this._handleAddList} />
-        <ListContent todoList={allList} />
-        <BottomBtns todoList={allList} />
-      </div>
+      <React.Fragment>
+        <h1 className={styles.mainTitle}>todos</h1>
+        <div className={styles.content}>
+          <AddInput handleAddList={this._handleAddList} />
+          <ListContent {...listParams} />
+          <BottomBtns {...bottomParams} />
+        </div>
+      </React.Fragment>
     )
   }
 }

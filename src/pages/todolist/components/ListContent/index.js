@@ -7,21 +7,17 @@ import ListItem from '../ListItem'
 class ListContent extends Component {
   static propTypes = {
     loading: PropTypes.object,
-    handleAddList: PropTypes.func,
-    todoList: PropTypes.array
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {}
+    todoList: PropTypes.array,
+    handleCompleted: PropTypes.func,
+    handleDelete: PropTypes.func
   }
 
   render() {
-    const { todoList } = this.props
+    const { todoList, handleCompleted, handleDelete } = this.props
     return (
       <Row>
         {(todoList || []).map(item => {
-          return <ListItem key={item.id} item={item} />
+          return <ListItem key={item.id} item={item} handleCompleted={handleCompleted} handleDelete={handleDelete} />
         })}
       </Row>
     )
