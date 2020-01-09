@@ -13,17 +13,9 @@ import BottomBtns from './components/BottomBtns'
 import styles from './index.less'
 
 class TodoList extends Component {
-  static propTypes = {
-    loading: PropTypes.object,
-    dispatch: PropTypes.func,
-    todolistManage: PropTypes.object
-  }
-
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch({
-      type: 'todolistManage/queryTodoList'
-    })
+    const { queryList } = this.props
+    queryList()
   }
 
   _handleAddList = title => {
@@ -31,24 +23,18 @@ class TodoList extends Component {
     if (!title) {
       return
     }
-    const { todolistManage, dispatch } = this.props
-    const { todoList } = todolistManage
-    const someItem = (todoList || []).find(item => item.task === title)
+    const { list, updateState } = this.props
+    const someItem = (list || []).find(item => item.task === title)
     if (someItem) {
       return message.warning('已存在相同名称的List！')
     }
     const newItem = {
-      id: (todoList || []).length + 1,
+      id: (list || []).length + 1,
       task: title,
       completed: false
     }
-    const newList = [...todoList, newItem]
-    dispatch({
-      type: 'todolistManage/updateState',
-      payload: {
-        todoList: newList
-      }
-    })
+    const newList = [...list, newItem]
+    updateState({ list: newList })
   }
 
   _handleCompletedItem = taskId => {
@@ -56,9 +42,8 @@ class TodoList extends Component {
     if (!taskId) {
       return
     }
-    const { todolistManage, dispatch } = this.props
-    const { todoList } = todolistManage
-    const newList = (todoList || []).map(item => {
+    const { list, updateState } = this.props
+    const newList = (list || []).map(item => {
       if (item.id === taskId) {
         return {
           ...item,
@@ -67,12 +52,8 @@ class TodoList extends Component {
       }
       return item
     })
-    dispatch({
-      type: 'todolistManage/updateState',
-      payload: {
-        todoList: newList
-      }
-    })
+
+    updateState({ list: newList })
   }
 
   _handleDeleteItem = taskId => {
@@ -80,9 +61,8 @@ class TodoList extends Component {
     if (!taskId) {
       return
     }
-    const { todolistManage, dispatch } = this.props
-    const { todoList } = todolistManage
-    const newList = (todoList || [])
+    const { list, updateState } = this.props
+    const newList = (list || [])
       .filter(item => item.id !== taskId)
       .map((i, index) => {
         return {
@@ -90,29 +70,19 @@ class TodoList extends Component {
           id: index + 1
         }
       })
-    dispatch({
-      type: 'todolistManage/updateState',
-      payload: {
-        todoList: newList
-      }
-    })
+    updateState({ list: newList })
   }
 
   _handleChangeStatus = key => {
     // 更改底部按钮状态
-    this.props.dispatch({
-      type: 'todolistManage/updateState',
-      payload: {
-        status: key
-      }
-    })
+    const { updateState } = this.props
+    updateState({ status: key })
   }
 
   _handleClearCompleted = () => {
     // 清除已完成
-    const { todolistManage, dispatch } = this.props
-    const { todoList } = todolistManage
-    const newList = (todoList || [])
+    const { list, updateState } = this.props
+    const newList = (list || [])
       .filter(item => !item.completed)
       .map((i, index) => {
         return {
@@ -120,22 +90,16 @@ class TodoList extends Component {
           id: index + 1
         }
       })
-    dispatch({
-      type: 'todolistManage/updateState',
-      payload: {
-        todoList: newList
-      }
-    })
+    updateState({ list: newList })
   }
 
   render() {
-    const { todolistManage } = this.props
-    const { todoList, status } = todolistManage
+    const { list, status } = this.props
 
     const listForStatus = {
-      ALL: todoList,
-      ACTIVE: (todoList || []).filter(item => !item.completed),
-      COMPLETED: (todoList || []).filter(item => item.completed)
+      ALL: list,
+      ACTIVE: (list || []).filter(item => !item.completed),
+      COMPLETED: (list || []).filter(item => item.completed)
     }
 
     const listParams = {
@@ -163,9 +127,40 @@ class TodoList extends Component {
   }
 }
 
-export default connect(({ todolistManage, loading }) => {
+TodoList.propTypes = {
+  loading: PropTypes.object,
+  list: PropTypes.array,
+  status: PropTypes.string,
+  updateState: PropTypes.func,
+  queryList: PropTypes.func
+}
+
+const mapStateToProps = ({ loading, todolist }) => {
   return {
     loading,
-    todolistManage
+    list: todolist.list,
+    status: todolist.status
   }
-})(TodoList)
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateState: payload => {
+      return dispatch({
+        type: 'todolist/updateState',
+        payload: payload
+      })
+    },
+    queryList: payload => {
+      return dispatch({
+        type: 'todolist/queryTodoList',
+        payload: payload
+      })
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList)

@@ -3,9 +3,9 @@ import { withMixin } from '../../helpers/dva'
 import { getTodoList } from './service'
 
 export default withMixin({
-  namespace: 'todolistManage',
+  namespace: 'todolist',
   state: {
-    todoList: [],
+    list: [],
     status: 'ALL'
   },
   subscriptions: {},
@@ -18,7 +18,7 @@ export default withMixin({
       yield put({
         type: 'updateState',
         payload: {
-          todoList: data || []
+          list: data || []
         }
       })
     }
