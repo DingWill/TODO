@@ -7,5 +7,5 @@ export function isOpenPages(page) {
 }
 
 export function isTodolistPage(pathname) {
-  return (pathname || '').startsWith('/todolist')
+  return !!pathname
 }
