@@ -1,5 +1,5 @@
 /**
- * title: HOOKS_TODO_LIST
+ * title: MY_TODOLIST
  */
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
