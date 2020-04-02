@@ -1,17 +1,52 @@
 import { withMixin } from '../../helpers/dva'
 
-import { getTodoList } from './service'
+import { getList, deleteList, addList, editList } from './service'
 
 export default withMixin({
-  namespace: 'todolist',
+  namespace: 'hooksTodo',
   state: {
-    list: [],
-    status: 'ALL'
+    list: []
   },
   subscriptions: {},
   effects: {
-    *queryTodoList({ payload }, { put, call, all, select }) {
-      const { success, data } = yield call(getTodoList)
+    *queryList({ payload }, { put, call }) {
+      const { success, data } = yield call(getList)
+      if (!success) {
+        return
+      }
+      yield put({
+        type: 'updateState',
+        payload: {
+          list: data || []
+        }
+      })
+    },
+    *addItem({ payload }, { put, call }) {
+      const { success, data } = yield call(addList, payload)
+      if (!success) {
+        return
+      }
+      yield put({
+        type: 'updateState',
+        payload: {
+          list: data || []
+        }
+      })
+    },
+    *editItem({ payload }, { put, call }) {
+      const { success, data } = yield call(editList, payload)
+      if (!success) {
+        return
+      }
+      yield put({
+        type: 'updateState',
+        payload: {
+          list: data || []
+        }
+      })
+    },
+    *deleteItem({ payload }, { put, call }) {
+      const { success, data } = yield call(deleteList, payload)
       if (!success) {
         return
       }

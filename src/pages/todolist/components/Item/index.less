@@ -2,6 +2,7 @@ p {
   margin: 0;
   padding: 0;
 }
+
 .todoItem {
   position: relative;
   line-height: 50px;
@@ -18,6 +19,7 @@ p {
   line-height: 50px;
   border: 1px solid @grey-3;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .itemCheckIcon {
@@ -26,10 +28,6 @@ p {
   left: 3px;
   color: #2eb170;
   font-size: 17px;
-}
-
-.todoItem > p {
-  display: inline-block;
 }
 
 .itemTitle {
@@ -45,10 +43,21 @@ p {
 .itemDelete {
   display: none;
   position: absolute;
-  top: 6px;
+  top: 20px;
   right: 15px;
+  width: 18px;
+  height: 18px;
   color: @red-1;
   font-size: 18px;
+  :global {
+    .anticon {
+      display: block;
+      cursor: pointer;
+    }
+  }
+  &:hover {
+    color: @primary-color;
+  }
 }
 
 .todoItem:hover .itemDelete {

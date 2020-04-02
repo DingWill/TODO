@@ -20,5 +20,20 @@ export default {
       }
     ],
     message: null
+  },
+  'post /todos': {
+    errorCode: 200,
+    success: true,
+    message: null
+  },
+  'put /todos/edit/:id': {
+    errorCode: 200,
+    success: true,
+    message: null
+  },
+  'delete /todos/:id': {
+    errorCode: 200,
+    success: true,
+    message: null
   }
 }
