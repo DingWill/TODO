@@ -1,28 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'dva'
+import classnames from 'classnames'
 import { Row, Icon } from 'antd'
 
 import styles from './index.less'
 
-function Item(props) {
-  const { item } = props
-  const { id, task, completed } = item
+function Item({ item, editItem, deleteItem }) {
+  const { id, title, completed } = item || {}
 
   const _handleCompleted = () => {
-    console.log('id', id)
+    editItem && editItem({ id, opts: { title, completed: !completed } })
   }
 
   const _handleDelete = () => {
-    console.log('id', id)
+    deleteItem && deleteItem({ id })
   }
 
-  const titleClassName = completed ? styles.itemTitleUnderline : styles.itemTitle
   return (
     <Row className={styles.todoItem}>
       <p className={styles.itemCheck} onClick={_handleCompleted}>
         {completed && <Icon type="check" className={styles.itemCheckIcon} />}
       </p>
-      <p className={titleClassName}>{task}</p>
+      <p className={classnames(styles.itemTitle, completed && styles.itemTitleUnderline)}>{title}</p>
       <p className={styles.itemDelete} onClick={_handleDelete}>
         <Icon type="close" />
       </p>
@@ -31,7 +31,30 @@ function Item(props) {
 }
 
 Item.propTypes = {
-  item: PropTypes.object
+  item: PropTypes.object,
+  editItem: PropTypes.func,
+  deleteItem: PropTypes.func
 }
 
-export default Item
+const mapStateToProps = ({ todos }) => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    editItem: payload => {
+      return dispatch({
+        type: 'todos/editItem',
+        payload: payload
+      })
+    },
+    deleteItem: payload => {
+      return dispatch({
+        type: 'todos/deleteItem',
+        payload: payload
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Item)

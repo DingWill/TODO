@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 export default {
-  MY_TODOLIST: 'Todo List',
+  TODO_LIST: 'Todo List',
   NOT_FOUND: '404',
   ERROR_PAGE_NOT_FOUND_ERROR: 'The page you are openning is not exist, please verify URL',
   ERROR_LOAD_ERROR: 'Loading error...',

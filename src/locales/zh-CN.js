@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 export default {
-  MY_TODOLIST: 'Todo List',
+  TODO_LIST: 'Todo List',
   NOT_FOUND: '404',
   ERROR_PAGE_NOT_FOUND_ERROR: '您正在找的页面不存在，请确认链接是否正确',
   ERROR_LOAD_ERROR: '加载错误...',

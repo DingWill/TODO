@@ -12,6 +12,10 @@ export function addList(opts) {
   return API.post(`/todos`, { ...opts })
 }
 
-export function editList(opts) {
-  return API.put(`/todos/edit/${opts.id}`, { ...opts })
+export function editList({ id, opts }) {
+  return API.put(`/todos/edit/${id}`, { ...opts })
+}
+
+export function clearCompleted(opts) {
+  return API.post(`/todos/clear`, { ...opts })
 }

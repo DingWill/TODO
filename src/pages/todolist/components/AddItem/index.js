@@ -1,17 +1,37 @@
-import React from 'react'
-import PropTyeps from 'prop-types'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'dva'
 import { Row, Input, Icon } from 'antd'
+import moment from 'moment'
 
 import styles from './index.less'
 
 function AddItem({ onAddItem }) {
-  const _handleAdd = event => {
+  const [value, setValue] = useState(null)
+
+  const onChange = event => {
     const {
-      target: { value }
+      target: { value: eVal }
     } = event
-    const finalText = value.trim()
+    const finalText = eVal.trim()
     const title = finalText !== '' ? finalText : null
-    onAddItem && onAddItem(title)
+    setValue(title)
+  }
+
+  const _handleAdd = () => {
+    if (!value || !onAddItem) {
+      return
+    }
+    const params = {
+      id: moment().valueOf(),
+      title: value,
+      completed: false
+    }
+    onAddItem(params).then(res => {
+      if (res) {
+        setValue(null)
+      }
+    })
   }
   return (
     <Row className={styles.addContent}>
@@ -20,13 +40,30 @@ function AddItem({ onAddItem }) {
         prefix={<Icon type="down" className={styles.icon} />}
         onPressEnter={_handleAdd}
         className={styles.search}
+        value={value}
+        onChange={onChange}
       />
     </Row>
   )
 }
 
 AddItem.propTypes = {
-  onAddItem: PropTyeps.func
+  onAddItem: PropTypes.func
 }
 
-export default AddItem
+const mapStateToProps = ({ loading, todos }) => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddItem: payload => {
+      return dispatch({
+        type: 'todos/addItem',
+        payload
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddItem)

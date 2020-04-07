@@ -5,17 +5,17 @@ export default {
     data: [
       {
         id: 1,
-        task: 'Learn Javascript',
+        title: 'Learn Javascript',
         completed: true
       },
       {
         id: 2,
-        task: 'Learn React',
+        title: 'Learn React',
         completed: false
       },
       {
         id: 3,
-        task: 'Learn Ant-Design',
+        title: 'Learn Ant-Design',
         completed: false
       }
     ],
@@ -32,6 +32,11 @@ export default {
     message: null
   },
   'delete /todos/:id': {
+    errorCode: 200,
+    success: true,
+    message: null
+  },
+  'post /todos/clear': {
     errorCode: 200,
     success: true,
     message: null
