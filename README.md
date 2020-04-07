@@ -7,11 +7,11 @@
 ## 安装依赖
 
 ```bash
-npm install
+yarn
 ```
 
 ## 项目启动
 
 ```bash
-npm start
+yarn start
 ```
