@@ -12,4 +12,4 @@ export const STORAGE_EXPIRE_DAYS = 49
 
 export const STORAGE_DOMAIN = !isProduction ? window.location.hostname : 'STORAGE_DOMAIN_PLACEHOLDER__'
 
-export const API_HOST = !isProduction ? '/' : 'API_HOST_PLACEHOLDER__'
+export const API_HOST = !isProduction ? 'http://localhost:3000/' : 'API_HOST_PLACEHOLDER__'

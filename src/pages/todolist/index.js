@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'dva'
 
 import { AddItem, Content, Footer } from './components/index'
+// import Level from './components/Level'
 import styles from './index.less'
 
 function TodoList(props) {
@@ -25,6 +26,7 @@ function TodoList(props) {
         {/* footer 部分 */}
         <Footer />
       </div>
+      {/* <Level /> */}
     </React.Fragment>
   )
 }

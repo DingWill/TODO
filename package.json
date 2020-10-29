@@ -33,7 +33,8 @@
     "react": "^16.8.4",
     "react-helmet": "^5.2.0",
     "replace-in-file": "^3.4.4",
-    "safe-reaper": "^1.1.0"
+    "safe-reaper": "^1.1.0",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.5.2",

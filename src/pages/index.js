@@ -3,7 +3,7 @@ import Redirect from 'umi/redirect'
 export default () => (
   <Redirect
     to={{
-      pathname: '/todolist',
+      pathname: '/menus',
       search: window.location.search
     }}
   />
